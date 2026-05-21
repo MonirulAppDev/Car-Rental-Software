@@ -1,0 +1,119 @@
+/* DriversPage.css */
+.drivers-page { display: flex; flex-direction: column; gap: 20px; }
+
+.driver-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.driver-card {
+  background: #fff;
+  border: 1px solid var(--a-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.driver-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+
+.driver-card__header {
+  display: flex;
+  gap: 14px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--a-border);
+  background: var(--a-bg-primary);
+}
+
+.driver-photo-wrapper { position: relative; flex-shrink: 0; }
+.driver-photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--a-border);
+}
+.driver-status-dot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+.status-dot--available { background: #22c55e; }
+.status-dot--on-trip   { background: #3b82f6; }
+.status-dot--off-duty  { background: #94a3b8; }
+
+.driver-basic-info { flex: 1; }
+.driver-name {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--a-text-primary);
+  margin-bottom: 4px;
+}
+.driver-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  color: var(--a-text-secondary);
+  font-weight: 600;
+}
+
+.driver-details {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+.driver-detail-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.driver-detail-label {
+  font-size: 0.73rem;
+  font-weight: 600;
+  color: var(--a-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+  width: 70px;
+}
+.driver-detail-value {
+  font-size: 0.82rem;
+  color: var(--a-text-primary);
+  font-weight: 500;
+  text-align: right;
+}
+.driver-phone {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--blue-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+.driver-license {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--a-text-secondary);
+}
+
+.driver-card__footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--a-border);
+  display: flex;
+  gap: 8px;
+  background: var(--a-bg-primary);
+}
+
+@media (max-width: 1100px) { .driver-cards-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .driver-cards-grid { grid-template-columns: 1fr; } }

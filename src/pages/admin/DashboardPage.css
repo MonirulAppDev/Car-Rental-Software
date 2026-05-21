@@ -1,0 +1,199 @@
+/* DashboardPage.css */
+.dashboard-page { display: flex; flex-direction: column; gap: 24px; }
+
+/* Header */
+.dashboard-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.dashboard-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.83rem;
+  color: var(--a-text-secondary);
+}
+
+/* Stat Cards */
+.stat-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  border: 1px solid var(--a-border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+
+.stat-card--gold::before { background: linear-gradient(90deg, #f5c518, #c9a100); }
+.stat-card--blue::before  { background: linear-gradient(90deg, #3b82f6, #2563eb); }
+.stat-card--green::before { background: linear-gradient(90deg, #22c55e, #16a34a); }
+.stat-card--purple::before { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
+.stat-card--orange::before { background: linear-gradient(90deg, #f59e0b, #d97706); }
+.stat-card--teal::before  { background: linear-gradient(90deg, #06b6d4, #0891b2); }
+
+.stat-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.stat-card--gold .stat-card__icon   { background: #fef9c3; color: #ca8a04; }
+.stat-card--blue .stat-card__icon   { background: #dbeafe; color: #2563eb; }
+.stat-card--green .stat-card__icon  { background: #dcfce7; color: #16a34a; }
+.stat-card--purple .stat-card__icon { background: #f3e8ff; color: #7c3aed; }
+.stat-card--orange .stat-card__icon { background: #fef3c7; color: #d97706; }
+.stat-card--teal .stat-card__icon   { background: #cffafe; color: #0891b2; }
+
+.stat-card__body { flex: 1; min-width: 0; }
+.stat-card__title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--a-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.stat-card__value {
+  font-family: var(--font-heading);
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: var(--a-text-primary);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.stat-card__desc {
+  font-size: 0.78rem;
+  color: var(--a-text-secondary);
+}
+.stat-card__change {
+  font-weight: 700;
+  color: #16a34a;
+}
+
+/* Charts */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 20px;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 12px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  color: var(--a-text-secondary);
+}
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.chart-tooltip {
+  background: #fff;
+  border: 1px solid var(--a-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  font-size: 0.82rem;
+}
+.chart-tooltip-label {
+  font-weight: 700;
+  color: var(--a-text-primary);
+  margin-bottom: 4px;
+}
+
+/* Utilization */
+.utilization-list { display: flex; flex-direction: column; gap: 14px; }
+.utilization-item { display: flex; flex-direction: column; gap: 6px; }
+.utilization-info { display: flex; justify-content: space-between; align-items: center; }
+.utilization-name { font-size: 0.83rem; font-weight: 600; color: var(--a-text-primary); }
+.utilization-percent { font-size: 0.78rem; font-weight: 700; color: var(--a-text-secondary); }
+.utilization-bar-track {
+  height: 6px;
+  background: var(--a-bg-primary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.utilization-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+/* Recent Bookings */
+.booking-id-text {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--blue-primary);
+  font-family: monospace;
+  letter-spacing: 0.5px;
+}
+
+/* Fleet */
+.fleet-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.fleet-car-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--a-border);
+  transition: background 0.15s;
+}
+.fleet-car-item:last-child { border-bottom: none; }
+.fleet-car-item:hover { background: var(--a-bg-primary); }
+.fleet-car-image {
+  width: 60px;
+  height: 40px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.fleet-car-image img { width: 100%; height: 100%; object-fit: cover; }
+.fleet-car-info { flex: 1; }
+.fleet-car-name { font-size: 0.88rem; font-weight: 700; color: var(--a-text-primary); }
+.fleet-car-type { font-size: 0.75rem; color: var(--a-text-secondary); }
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .stat-cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .charts-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .stat-cards-grid { grid-template-columns: 1fr; }
+}

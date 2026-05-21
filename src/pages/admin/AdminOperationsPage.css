@@ -1,0 +1,133 @@
+.operations-page {
+  padding: 24px;
+}
+
+.operations-tabs {
+  display: flex;
+  gap: 8px;
+  background: var(--a-bg-secondary);
+  padding: 8px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+  overflow-x: auto;
+  border: 1px solid var(--a-border);
+}
+
+.operations-tab {
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--a-text-secondary);
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.operations-tab:hover {
+  color: var(--a-text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.operations-tab.active {
+  background: var(--a-primary);
+  color: #000;
+  font-weight: 600;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.module-card {
+  background: var(--a-bg-secondary);
+  border: 1px solid var(--a-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.module-card h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Specific module styles */
+.finance-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.finance-table th, .finance-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--a-border);
+  font-size: 0.85rem;
+}
+
+.finance-table th {
+  color: var(--a-text-secondary);
+  font-weight: 500;
+}
+
+.finance-table td {
+  color: var(--a-text-primary);
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.log-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--a-border);
+}
+
+.log-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--a-text-secondary);
+  flex-shrink: 0;
+}
+
+.log-content h4 {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+}
+
+.log-content p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--a-text-secondary);
+}
+
+.comms-preview {
+  background: rgba(0,0,0,0.2);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--a-border);
+  margin-top: 16px;
+}
