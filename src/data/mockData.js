@@ -597,3 +597,52 @@ export const currentUser = {
   walletBalance: 3500,
   referralCode: 'FARHAN2024',
 };
+
+// --- MANUAL DISPATCH PANEL DATA (Phase 4) ---
+export const manualStaff = [
+  { id: 'S-01', name: 'Zahid Hossain', role: 'Super Admin', phone: '01711-223344', active: true },
+  { id: 'S-02', name: 'Md. Shafiq', role: 'Manager', phone: '01822-334455', active: true },
+  { id: 'S-03', name: 'Kamal Pasha', role: 'Dispatcher', phone: '01933-445566', active: true },
+  { id: 'S-04', name: 'Tarek Rahman', role: 'Dispatcher', phone: '01644-556677', active: false },
+];
+
+export const manualBookings = [
+  {
+    id: 'MBK-1001',
+    customerName: 'Jashim Uddin',
+    customerPhone: '01755-123123',
+    nid: '1985123456789',
+    carName: 'Toyota Hiace (Ga-22-1111)',
+    driverName: 'Abdur Rahim',
+    destination: 'Coxs Bazar Tour',
+    reason: 'Family Tour',
+    startDate: '2024-05-22 08:00 AM',
+    endDate: '2024-05-25 10:00 PM',
+    durationDays: 4,
+    totalFare: 32000,
+    advancePaid: 10000,
+    due: 22000,
+    khoraaki: 1500,
+    status: 'Confirmed',
+    enteredBy: 'Md. Shafiq',
+  },
+  {
+    id: 'MBK-1002',
+    customerName: 'Anisur Rahman',
+    customerPhone: '01866-987654',
+    nid: '1990456123789',
+    carName: 'Mercedes E-Class (Ka-11-2345)',
+    driverName: 'No Driver (Self-drive)',
+    destination: 'Dhaka Local',
+    reason: 'Wedding Duty',
+    startDate: '2024-05-21 10:00 AM',
+    endDate: '2024-05-21 10:00 PM',
+    durationDays: 1,
+    totalFare: 15000,
+    advancePaid: 15000,
+    due: 0,
+    khoraaki: 0,
+    status: 'Ongoing',
+    enteredBy: 'Kamal Pasha',
+  }
+];

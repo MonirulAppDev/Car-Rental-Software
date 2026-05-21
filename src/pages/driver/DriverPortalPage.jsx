@@ -1,95 +1,195 @@
 import { useState } from 'react';
-import { 
-  Navigation, Phone, MapPin, Play, Square, Settings, User
-} from 'lucide-react';
+import { useDispatchContext } from '../../context/DispatchContext';
+import { Phone, MapPin, User, CheckCircle, FileText, IndianRupee, Send, LogOut } from 'lucide-react';
 import './DriverPortalPage.css';
 
 const DriverPortalPage = () => {
-  const [tripStatus, setTripStatus] = useState('pending'); // pending, active, completed
+  const { drivers, bookings, submitDriverUpdate } = useDispatchContext();
+  const [currentDriverId, setCurrentDriverId] = useState('');
+  
+  // Update Form State
+  const [statusReq, setStatusReq] = useState('Completed');
+  const [expense, setExpense] = useState('');
+  const [note, setNote] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  return (
-    <div className="driver-portal">
-      {/* Header */}
-      <header className="driver-header">
-        <div className="driver-header-user">
-          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80" alt="Driver" className="driver-avatar" />
-          <div>
-            <h3 style={{ margin: 0, fontSize: '1rem', color: '#fff' }}>Karim Hossain</h3>
-            <span style={{ fontSize: '0.8rem', color: 'var(--color-success)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--color-success)' }}></div>
-              Online
-            </span>
+  // Login Screen
+  if (!currentDriverId) {
+    return (
+      <div className="driver-portal-wrap">
+        <div className="driver-login-screen animate-slide-up">
+          <div className="login-avatar">
+            <User size={40} color="white" />
+          </div>
+          <h2 style={{ marginBottom: '10px' }}>Driver Portal</h2>
+          <p style={{ color: '#94a3b8', marginBottom: '30px' }}>Select your profile to continue</p>
+          
+          <div style={{ width: '100%', maxWidth: '320px' }}>
+            <select 
+              className="driver-select"
+              onChange={(e) => setCurrentDriverId(e.target.value)}
+              value={currentDriverId}
+            >
+              <option value="">Choose your name...</option>
+              {drivers.map(d => (
+                <option key={d.id} value={d.name}>{d.name} ({d.id})</option>
+              ))}
+            </select>
           </div>
         </div>
-        <button style={{ background: 'transparent', border: 'none', color: 'white', cursor: 'pointer' }}>
-          <Settings size={20} />
-        </button>
-      </header>
-
-      {/* Map Area */}
-      <div className="driver-map-container">
-        {/* Mock Map Image */}
-        <img 
-          src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80" 
-          alt="Map" 
-          className="map-bg" 
-          style={{ filter: 'grayscale(100%) invert(90%) brightness(0.6)' }} 
-        />
-        
-        {tripStatus !== 'completed' && (
-          <div className="map-pin">
-            <div className="map-pin-label">{tripStatus === 'pending' ? 'Pickup' : 'Drop-off'}</div>
-          </div>
-        )}
       </div>
+    );
+  }
 
-      {/* Trip Control Panel */}
-      <div className="trip-panel animate-fadeInUp">
-        {tripStatus === 'completed' ? (
-          <div style={{ textAlign: 'center', padding: '20px 0', color: '#fff' }}>
-            <div style={{ width: '60px', height: '60px', background: 'rgba(34, 197, 94, 0.1)', color: 'var(--color-success)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
-              <User size={32} />
+  // Find active trip for this driver
+  const myTrip = bookings.find(b => b.driverName === currentDriverId && (b.status === 'Ongoing' || b.status === 'Confirmed'));
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+
+    const expenseNum = Number(expense) || 0;
+
+    // VALIDATION 1: Cannot submit negative expenses
+    if (expenseNum < 0) {
+      setError('Expense cannot be negative.');
+      return;
+    }
+
+    // VALIDATION 2: If expense > 0, note is required
+    if (expenseNum > 0 && note.trim().length === 0) {
+      setError('Please add a note explaining the expense (e.g., Toll, Fuel).');
+      return;
+    }
+
+    submitDriverUpdate(currentDriverId, myTrip ? myTrip.id : null, {
+      status: statusReq,
+      expense: expenseNum,
+      note: note.trim()
+    });
+    
+    setSubmitted(true);
+    setTimeout(() => {
+      setSubmitted(false);
+      setExpense('');
+      setNote('');
+      setStatusReq('Completed');
+    }, 3000);
+  };
+
+  return (
+    <div className="driver-portal-wrap">
+      <div className="driver-portal-container animate-slide-up">
+        
+        {/* Header */}
+        <header className="glass-card driver-header">
+          <div className="driver-profile">
+            <div style={{ width: '40px', height: '40px', background: 'linear-gradient(135deg, #3b82f6, #2563eb)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <User size={20} color="white" />
             </div>
-            <h3 style={{ margin: '0 0 8px' }}>Waiting for next trip...</h3>
-            <p style={{ color: 'var(--c-text-muted)', margin: 0 }}>Stay online to receive booking requests.</p>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '1.05rem' }}>{currentDriverId}</h3>
+              <span style={{ fontSize: '0.8rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+                <span className="status-dot"></span> Online
+              </span>
+            </div>
+          </div>
+          <button onClick={() => setCurrentDriverId('')} className="logout-btn" title="Logout">
+            <LogOut size={18} />
+          </button>
+        </header>
+
+        {/* Active Trip Info */}
+        {!myTrip ? (
+          <div className="glass-card" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
+            <CheckCircle size={48} color="#10b981" style={{ margin: '0 auto 1rem' }} />
+            <h3 style={{ margin: '0 0 0.5rem 0' }}>No Active Trips</h3>
+            <p style={{ color: '#94a3b8', margin: 0 }}>You have no ongoing trips assigned to you. Relax or contact your dispatcher.</p>
           </div>
         ) : (
           <>
-            <div className="trip-status-badge">
-              <span className="pulse-dot" style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'currentColor' }}></span>
-              {tripStatus === 'pending' ? 'Passenger Waiting' : 'Trip in Progress'}
-            </div>
+            <div className="glass-card">
+              <div className="trip-header-info">
+                <span className="trip-id">Trip ID: {myTrip.id}</span>
+                <span className="trip-status-badge">{myTrip.status}</span>
+              </div>
+              
+              <h2 className="customer-name">{myTrip.customerName}</h2>
+              
+              <div className="info-row">
+                <Phone size={16} color="#60a5fa"/> 
+                <span>{myTrip.customerPhone}</span>
+              </div>
 
-            <div className="trip-details">
-              <div className="trip-customer">
-                <div style={{ width: '40px', height: '40px', background: 'var(--c-bg-primary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-                  <User size={20} />
-                </div>
+              <div className="destination-box">
+                <MapPin size={20} color="#ef4444" style={{ marginTop: '2px' }}/> 
                 <div>
-                  <h4 style={{ margin: '0 0 4px', fontSize: '1.1rem', color: '#fff' }}>Farhan Ahmed</h4>
-                  <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--c-text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}><MapPin size={12} /> Hazrat Shahjalal Airport</p>
+                  <p style={{ margin: '0 0 0.25rem 0', fontSize: '0.85rem', color: '#94a3b8' }}>Destination</p>
+                  <p style={{ margin: 0, fontSize: '1.1rem', fontWeight: 500 }}>{myTrip.destination}</p>
                 </div>
               </div>
-              <h2 style={{ margin: 0, color: 'var(--gold-primary)' }}>৳2,500</h2>
             </div>
 
-            <div className="trip-actions">
-              {tripStatus === 'pending' ? (
-                <button className="trip-btn-large btn-start" onClick={() => setTripStatus('active')} style={{ gridColumn: 'span 2' }}>
-                  <Play size={20} /> Start Trip
-                </button>
-              ) : (
-                <button className="trip-btn-large btn-end" onClick={() => setTripStatus('completed')} style={{ gridColumn: 'span 2' }}>
-                  <Square size={20} /> End Trip
-                </button>
-              )}
+            {/* Update Form */}
+            <div className="glass-card">
+              <h3 style={{ margin: '0 0 1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem' }}>
+                <FileText size={20} color="#60a5fa" /> Submit Update
+              </h3>
               
-              <button className="trip-btn-large btn-nav">
-                <Navigation size={18} /> Navigate
-              </button>
-              <button className="trip-btn-large btn-call">
-                <Phone size={18} /> Call
-              </button>
+              {submitted ? (
+                <div style={{ textAlign: 'center', padding: '1.5rem', background: 'rgba(16, 185, 129, 0.1)', borderRadius: '12px', color: '#10b981' }}>
+                  <CheckCircle size={36} style={{ margin: '0 auto 1rem' }} />
+                  <h4 style={{ margin: '0 0 0.5rem' }}>Update Sent!</h4>
+                  <p style={{ margin: 0, fontSize: '0.9rem' }}>Waiting for manager verification.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                  <div>
+                    <label className="form-label">Trip Status *</label>
+                    <select 
+                      className="glass-input"
+                      value={statusReq} 
+                      onChange={(e) => setStatusReq(e.target.value)}
+                    >
+                      <option value="Completed">Trip Completed successfully</option>
+                      <option value="Garage">Car returned to Garage</option>
+                      <option value="Breakdown">Breakdown / Maintenance issue</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="form-label">Extra Expense (Toll, Fuel, etc.)</label>
+                    <div className="expense-input-wrapper">
+                      <span style={{ color: '#94a3b8', fontSize: '1.1rem' }}>৳</span>
+                      <input 
+                        type="number" 
+                        className="glass-input"
+                        placeholder="0"
+                        value={expense}
+                        onChange={(e) => setExpense(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="form-label">Notes (Required if expense added)</label>
+                    <input 
+                      type="text" 
+                      className="glass-input"
+                      placeholder="e.g. Paid Padma bridge toll"
+                      value={note}
+                      onChange={(e) => setNote(e.target.value)}
+                    />
+                  </div>
+
+                  {error && <span className="error-text">{error}</span>}
+
+                  <button type="submit" className="submit-btn" style={{ marginTop: '0.5rem' }}>
+                    <Send size={18} /> Send for Verification
+                  </button>
+                </form>
+              )}
             </div>
           </>
         )}

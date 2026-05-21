@@ -23,6 +23,17 @@ import SettingsPage from './pages/admin/SettingsPage';
 import AdminOperationsPage from './pages/admin/AdminOperationsPage';
 import AdminAccountingPage from './pages/admin/AdminAccountingPage';
 
+// Panel Only Imports (Phase 4)
+import DispatchLayout from './components/panel/DispatchLayout';
+import LiveBoardPage from './pages/panel/LiveBoardPage';
+import ManualEntryPage from './pages/panel/ManualEntryPage';
+import TripLedgerPage from './pages/panel/TripLedgerPage';
+import StaffRolesPage from './pages/panel/StaffRolesPage';
+import BookingInvoicePage from './pages/panel/BookingInvoicePage';
+import DispatchDashboard from './pages/panel/DispatchDashboard';
+import LiveTrackingPage from './pages/panel/LiveTrackingPage';
+import { DispatchProvider } from './context/DispatchContext';
+
 // Customer Layout Wrapper
 const CustomerLayout = () => {
   return (
@@ -33,6 +44,15 @@ const CustomerLayout = () => {
       </main>
       <Footer />
     </>
+  );
+};
+
+// Dispatch App Wrapper (Provides DB Context to all Dispatch/Driver routes)
+const DispatchApp = () => {
+  return (
+    <DispatchProvider>
+      <Outlet />
+    </DispatchProvider>
   );
 };
 
@@ -59,8 +79,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
         </Route>
 
-        {/* Driver App Simulation Route */}
-        <Route path="/driver" element={<DriverPortalPage />} />
+        {/* Driver App Simulation Route (Old) */}
+        {/* Replaced by the new Driver Portal inside DispatchApp */}
 
         {/* Admin Login Route */}
         <Route path="/admin-panel" element={<AdminLoginPage />} />
@@ -75,6 +95,26 @@ function App() {
           <Route path="/admin-panel/accounting" element={<AdminAccountingPage />} />
           <Route path="/admin-panel/operations" element={<AdminOperationsPage />} />
           <Route path="/admin-panel/settings" element={<SettingsPage />} />
+        </Route>
+
+        {/* Offline Dispatch & Driver Portal (Phase 7 & 8) */}
+        <Route element={<DispatchApp />}>
+          {/* Driver Portal (No Sidebar) */}
+          <Route path="/driver-portal" element={<DriverPortalPage />} />
+          
+          {/* Invoice Print (No Sidebar) */}
+          <Route path="/panel-only/invoice/:id" element={<BookingInvoicePage />} />
+
+          {/* Dispatcher Panel (With Sidebar) */}
+          <Route element={<DispatchLayout />}>
+            <Route path="/panel-only" element={<DispatchDashboard />} />
+            <Route path="/panel-only/dashboard" element={<DispatchDashboard />} />
+            <Route path="/panel-only/tracking" element={<LiveTrackingPage />} />
+            <Route path="/panel-only/board" element={<LiveBoardPage />} />
+            <Route path="/panel-only/new" element={<ManualEntryPage />} />
+            <Route path="/panel-only/ledger" element={<TripLedgerPage />} />
+            <Route path="/panel-only/staff" element={<StaffRolesPage />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

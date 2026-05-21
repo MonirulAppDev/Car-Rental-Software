@@ -1,0 +1,259 @@
+.tracking-page-container {
+  height: calc(100vh - 180px);
+  min-height: 600px;
+  background-color: #0f172a;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Simulated Map Grid Background */
+.map-background {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    linear-gradient(rgba(30, 41, 59, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 41, 59, 0.4) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center center;
+}
+.map-background::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at center, transparent 0%, #0f172a 100%);
+  pointer-events: none;
+}
+
+/* Car Marker Pin */
+.car-marker {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.car-ping {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.car-icon-wrap {
+  position: relative;
+  background: #1e293b;
+  border: 2px solid #3b82f6;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  transition: transform 0.2s;
+}
+
+.car-marker:hover .car-icon-wrap {
+  transform: scale(1.15);
+  background: #3b82f6;
+}
+.car-marker:hover .car-icon-wrap svg {
+  color: #fff !important;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Tooltip (Short Details) */
+.marker-tooltip {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 15px;
+  width: 240px;
+  color: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  z-index: 20;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+
+.car-marker.active .marker-tooltip {
+  opacity: 1;
+  visibility: visible;
+  bottom: 55px;
+}
+
+/* Tooltip Arrow */
+.marker-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: rgba(30, 41, 59, 0.95);
+  border-right: 1px solid #334155;
+  border-bottom: 1px solid #334155;
+}
+
+.tooltip-header {
+  border-bottom: 1px solid #334155;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+.tooltip-header h4 {
+  margin: 0 0 2px;
+  font-size: 1rem;
+  color: #f8fafc;
+}
+.tooltip-header p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.tooltip-body {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.tb-stat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}
+
+.tooltip-btn {
+  width: 100%;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.tooltip-btn:hover {
+  background: #2563eb;
+}
+
+/* Full Details Modal */
+.tracking-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tracking-modal {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tm-header {
+  background: #f8fafc;
+  padding: 20px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tm-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tm-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.tm-body {
+  padding: 20px;
+}
+
+.tm-section {
+  margin-bottom: 20px;
+}
+.tm-section:last-child {
+  margin-bottom: 0;
+}
+.tm-section h3 {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  background: #f1f5f9;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.tm-data-row {
+  display: flex;
+  flex-direction: column;
+}
+.tm-data-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 2px;
+}
+.tm-data-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+}

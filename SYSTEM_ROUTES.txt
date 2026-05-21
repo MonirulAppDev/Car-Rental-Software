@@ -1,0 +1,33 @@
+=======================================================
+           CAR RENTAL SYSTEM - ALL ROUTES GUIDE
+=======================================================
+Base URL: http://localhost:5173
+
+1. CUSTOMER WEBSITE (Public)
+-------------------------------------------------------
+- Homepage         : http://localhost:5173/#/
+- Browse Cars      : http://localhost:5173/#/cars
+- Customer Login   : http://localhost:5173/#/login
+
+2. OFFLINE DISPATCHER PANEL (For Offline/Manual Bookings)
+-------------------------------------------------------
+- Financial Dashboard : http://localhost:5173/#/panel-only
+- Live Board          : http://localhost:5173/#/panel-only/board
+- GPS Tracking Map    : http://localhost:5173/#/panel-only/tracking
+- New Manual Entry    : http://localhost:5173/#/panel-only/new
+- Trip Ledger         : http://localhost:5173/#/panel-only/ledger
+- Staff & Roles       : http://localhost:5173/#/panel-only/staff
+
+3. DRIVER PORTAL (Mobile Friendly)
+-------------------------------------------------------
+- Driver Login & App  : http://localhost:5173/#/driver-portal
+
+4. MAIN ADMIN PANEL (Super Admin / Owner)
+-------------------------------------------------------
+- Admin Login         : http://localhost:5173/#/admin-panel
+- Admin Dashboard     : http://localhost:5173/#/admin-panel/dashboard
+
+=======================================================
+Tip: Bookmark the Dispatcher Panel (http://localhost:5173/#/panel-only) 
+and Driver Portal (http://localhost:5173/#/driver-portal) for quick access!
+=======================================================
